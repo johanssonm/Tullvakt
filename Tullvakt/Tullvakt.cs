@@ -8,7 +8,8 @@ namespace Tullvakt
         public const double LightWeightVehicleFee = 500;
         public const double HeavyWeightVehicleFee = 1000;
         public const double StandardTruckFee = 2000;
-        public const double NightTollFeeMultiplier = 0.5;
+        public const double NightTollDiscount = 0.5;
+        public const double MotorCykleDiscount = 0.7;
 
         public const int StandardWeightInKgs = 1000;
 
@@ -16,7 +17,7 @@ namespace Tullvakt
     }
 
 
-    interface ITollfee
+    interface ITollFee
     {
         void Tollfee();
     }
@@ -26,6 +27,7 @@ namespace Tullvakt
 
         public int Weight { get; set; }
         public double Fee { get; set; }
+        public bool EnviromentFriendly { get; set; }
         public TimeSpan PassageTime { get; set; }
         public DayOfWeek PassageDay { get; set; }
 
@@ -75,23 +77,26 @@ namespace Tullvakt
 
     }
 
-    public class Motobike : Vehicle
+    public class MotorCycle : Vehicle
     {
 
-        public Motobike(int weight, int fee) : base(weight)
+        public MotorCycle(int weight)
 
         {
+            if (weight >= FeeCalc.StandardWeightInKgs)
+            {
+                Fee = FeeCalc.HeavyWeightVehicleFee * FeeCalc.MotorCykleDiscount;
+            }
+
+            if (weight < FeeCalc.StandardWeightInKgs)
+            {
+                Fee = FeeCalc.LightWeightVehicleFee * FeeCalc.MotorCykleDiscount;
+            }
+
+            Weight = weight;
 
         }
 
     }
-
-    public class Toll
-    {
-
-
-
-    }
-
 
 }
