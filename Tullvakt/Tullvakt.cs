@@ -5,12 +5,14 @@ namespace Tullvakt
 {
     public static class FeeCalc
     {
-        public const int LightWeightVehicleFee = 500;
-        public const int HeavyWeightVehicleFee = 1000;
-        public const int StandardTruckFee = 1000;
-        public const double NightTollFeeMultiplier = 1.5;
+        public const double LightWeightVehicleFee = 500;
+        public const double HeavyWeightVehicleFee = 1000;
+        public const double StandardTruckFee = 2000;
+        public const double NightTollFeeMultiplier = 0.5;
 
         public const int StandardWeightInKgs = 1000;
+
+
     }
 
 
@@ -23,8 +25,13 @@ namespace Tullvakt
     {
 
         public int Weight { get; set; }
-        public int Fee { get; set; }
+        public double Fee { get; set; }
         public TimeSpan PassageTime { get; set; }
+        public DayOfWeek PassageDay { get; set; }
+
+        public Vehicle()
+        {
+        }
 
         public Vehicle(int weight)
         {
@@ -48,9 +55,8 @@ namespace Tullvakt
     public class Truck : Vehicle
     {
 
-        public Truck(int weight) : base(weight)
+        public Truck()
         {
-            Weight = weight;
             Fee = FeeCalc.StandardTruckFee;
 
         }
