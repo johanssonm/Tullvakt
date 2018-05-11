@@ -13,15 +13,15 @@ namespace Tullvakt
         public const double StandardTruckFee = 2000;
 
         public const double NightTollDiscount = 0.5;
-        public const double MotorCykleDiscount = 0.7;
+        public const double MotorCycleDiscount = 0.7;
         public const double WeekendAndHolidayMultiplier = 2;
         public const double DutyFree = 0;
 
-        public const int StandardWeightInKgs = 1000;
+        public const double StandardWeightInKgs = 1000;
 
         public static double DetermineFeeByWeight(double weight)
         {
-            if (weight < FeeCalc.StandardWeightInKgs)
+            if (weight <= FeeCalc.StandardWeightInKgs)
             {
                 return FeeCalc.LightWeightVehicleFee;
             }
@@ -33,44 +33,69 @@ namespace Tullvakt
         public static void DetermineNightToll(Vehicle vehicle)
         {
 
-            TimeSpan StartTollNightFee = new TimeSpan(StartNightFee);
-            TimeSpan EndTollNightFee = new TimeSpan(EndNightFee);
+            TimeSpan startTollNightFee = new TimeSpan(StartNightFee);
+            TimeSpan endTollNightFee = new TimeSpan(EndNightFee);
 
 
             while (true)
             {
-                if (vehicle.PassageDay == DayOfWeek.Saturday)
-                {
-                    break;
-                }
-
-                if (vehicle.PassageDay == DayOfWeek.Sunday)
-                {
-                    break;
-                }
-
                 if (vehicle is Truck)
                 {
                     break;
                 }
 
-
-                if (vehicle.PassageTime < StartTollNightFee ||
-                    vehicle.PassageTime > EndTollNightFee)
+                if (vehicle.PassageDay == DayOfWeek.Saturday ||
+                    vehicle.PassageDay == DayOfWeek.Sunday)
                 {
-                    vehicle.Fee = vehicle.Fee * FeeCalc.NightTollDiscount;
                     break;
                 }
 
+                if (vehicle.PassageTime > startTollNightFee || 
+                    vehicle.PassageTime < endTollNightFee)
+                {
                     vehicle.Fee = vehicle.Fee * FeeCalc.NightTollDiscount;
+                }
 
                     break;
                
             }
         }
 
+        public static void DetermineOvertimePay(Vehicle vehicle)
+        {
+
+            TimeSpan startTollNightFee = new TimeSpan(StartNightFee);
+            TimeSpan endTollNightFee = new TimeSpan(EndNightFee);
+
+
+            while (true)
+            {
+                if (vehicle is Truck)
+                {
+                    break;
+                }
+
+                if (vehicle.PassageDay == DayOfWeek.Saturday ||
+                    vehicle.PassageDay == DayOfWeek.Sunday)
+                {
+                    break;
+                }
+
+                if (vehicle.PassageTime > startTollNightFee ||
+                    vehicle.PassageTime < endTollNightFee)
+                {
+                    vehicle.Fee = vehicle.Fee * FeeCalc.NightTollDiscount;
+                }
+
+                break;
+
+            }
+        }
+
 
     }
+
+}
 
     public class Vehicle
     {
@@ -123,7 +148,7 @@ namespace Tullvakt
         public MotorCycle(int weight)
 
         {
-            Fee = FeeCalc.DetermineFeeByWeight(weight);
+            Fee = FeeCalc.DetermineFeeByWeight(weight) * FeeCalc.MotorCycleDiscount;
 
             Weight = weight;
 
