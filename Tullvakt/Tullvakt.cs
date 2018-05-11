@@ -5,21 +5,71 @@ namespace Tullvakt
 {
     public static class FeeCalc
     {
+        public const int StartNightFee = 1800;
+        public const int EndNightFee = 0600;
+
         public const double LightWeightVehicleFee = 500;
         public const double HeavyWeightVehicleFee = 1000;
         public const double StandardTruckFee = 2000;
+
         public const double NightTollDiscount = 0.5;
         public const double MotorCykleDiscount = 0.7;
+        public const double WeekendAndHolidayMultiplier = 2;
+        public const double DutyFree = 0;
 
         public const int StandardWeightInKgs = 1000;
 
+        public static double DetermineFeeByWeight(double weight)
+        {
+            if (weight < FeeCalc.StandardWeightInKgs)
+            {
+                return FeeCalc.LightWeightVehicleFee;
+            }
 
-    }
+            return FeeCalc.HeavyWeightVehicleFee;
+
+        }
+
+        public static void DetermineNightToll(Vehicle vehicle)
+        {
+
+            TimeSpan StartTollNightFee = new TimeSpan(StartNightFee);
+            TimeSpan EndTollNightFee = new TimeSpan(EndNightFee);
 
 
-    interface ITollFee
-    {
-        void Tollfee();
+            while (true)
+            {
+                if (vehicle.PassageDay == DayOfWeek.Saturday)
+                {
+                    break;
+                }
+
+                if (vehicle.PassageDay == DayOfWeek.Sunday)
+                {
+                    break;
+                }
+
+                if (vehicle is Truck)
+                {
+                    break;
+                }
+
+
+                if (vehicle.PassageTime < StartTollNightFee ||
+                    vehicle.PassageTime > EndTollNightFee)
+                {
+                    vehicle.Fee = vehicle.Fee * FeeCalc.NightTollDiscount;
+                    break;
+                }
+
+                    vehicle.Fee = vehicle.Fee * FeeCalc.NightTollDiscount;
+
+                    break;
+               
+            }
+        }
+
+
     }
 
     public class Vehicle
@@ -37,17 +87,7 @@ namespace Tullvakt
 
         public Vehicle(int weight)
         {
-
-            if (weight >= FeeCalc.StandardWeightInKgs)
-            {
-                Fee = FeeCalc.HeavyWeightVehicleFee;
-            }
-
-            if (weight < FeeCalc.StandardWeightInKgs)
-            {
-                Fee = FeeCalc.LightWeightVehicleFee;
-            }
-
+            Fee = FeeCalc.DetermineFeeByWeight(weight);
             Weight = weight;
         }
 
@@ -66,14 +106,14 @@ namespace Tullvakt
 
     public class PrivateCar : Vehicle
     {
+        public PrivateCar(int weight)
 
-        public PrivateCar(int weight) : base(weight)
         {
+            Fee = FeeCalc.DetermineFeeByWeight(weight);
 
-            Weight = Weight;
-            Fee = FeeCalc.LightWeightVehicleFee;
+            Weight = weight;
+
         }
-
 
     }
 
@@ -83,15 +123,7 @@ namespace Tullvakt
         public MotorCycle(int weight)
 
         {
-            if (weight >= FeeCalc.StandardWeightInKgs)
-            {
-                Fee = FeeCalc.HeavyWeightVehicleFee * FeeCalc.MotorCykleDiscount;
-            }
-
-            if (weight < FeeCalc.StandardWeightInKgs)
-            {
-                Fee = FeeCalc.LightWeightVehicleFee * FeeCalc.MotorCykleDiscount;
-            }
+            Fee = FeeCalc.DetermineFeeByWeight(weight);
 
             Weight = weight;
 
