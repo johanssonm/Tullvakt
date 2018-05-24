@@ -6,32 +6,28 @@ namespace Tullvakt
 
 	public abstract class Vehicle
 	{
-
-		public int Weight { get; set; }
-		public bool EnviromentFriendly { get; set; }
-
-		public Vehicle()
-		{
-		}
+        
+		public int weight { get; set; }
+		public bool enviromentFriendly { get; set; }
+        
 	}
 
-   
+	public class Car : Vehicle
+	{
+		
+	}
+
 	public class Truck : Vehicle
     {
-    
-    }
 
-    public class PrivateCar : Vehicle
+	
+	}
+
+	public class Motorcycle : Vehicle
     {
 
-
-    }
-
-    public class MotorCycle : Vehicle
-    {
-    
-
     }
 
 
+   
 }

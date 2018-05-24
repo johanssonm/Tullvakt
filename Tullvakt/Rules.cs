@@ -7,43 +7,36 @@ namespace Tullvakt
         
         public static double Rule1_Rule2(Vehicle vehicle, double fee)
         {
-            if (vehicle.Weight <= Toll.StandardWeightInKgs)
+			
+            if (vehicle.weight <= Toll.StandardWeightInKgs)
             {
-                return Toll.LightWeightVehicleFee;
+				fee = Toll.LightWeightVehicleFee;
+                return fee;
             }
 
-            return Toll.HeavyWeightVehicleFee;
+			fee = Toll.HeavyWeightVehicleFee;
+            return fee;
 
         }
 
-        public static void DetermineNightToll(Vehicle vehicle)
+		public static double Rule3(DateTime datetime, double fee)
         {
 
-            TimeSpan startTollNightFee = new TimeSpan(StartNightFee);
-            TimeSpan endTollNightFee = new TimeSpan(EndNightFee);
-
-
-            while (true)
-            {
-                if (vehicle is Truck)
+			DateTime startTollNightFee = new DateTime(Toll.StartNightFee);
+			DateTime endTollNightFee = new DateTime(Toll.EndNightFee);
+                     
+			if (datetime.DayOfWeek == DayOfWeek.Saturday ||
+			    datetime.DayOfWeek == DayOfWeek.Sunday)
                 {
-                    break;
+				return fee;
                 }
 
-                if (vehicle.PassageDay == DayOfWeek.Saturday ||
-                    vehicle.PassageDay == DayOfWeek.Sunday)
+                if (datetime > startTollNightFee ||
+                    datetime < endTollNightFee)
                 {
-                    break;
+                    return fee * Toll.NightTollDiscount;
                 }
-
-                if (vehicle.PassageTime > startTollNightFee ||
-                    vehicle.PassageTime < endTollNightFee)
-                {
-                    vehicle.Fee = vehicle.Fee * FeeCalc.NightTollDiscount;
-                }
-
-                break;
-
+                     
             }
         }
 
