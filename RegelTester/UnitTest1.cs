@@ -48,12 +48,12 @@ namespace Tulltester
             var heavyNightVehicle = new Vehicle(1200);
             var timespan = new TimeSpan(2200);
             heavyNightVehicle.timeOfPassage = timespan;
-			heavyNightVehicle.dateOfPassage = new DateTime(2018, 05, 16);
+            heavyNightVehicle.dateOfPassage = new DateTime(2018, 05, 16);
 
             var lightNightVehicle = new Vehicle(999);
             var timespan1 = new TimeSpan(1801);
             lightNightVehicle.timeOfPassage = timespan1;
-			lightNightVehicle.dateOfPassage = new DateTime(2018, 05, 16);
+            lightNightVehicle.dateOfPassage = new DateTime(2018, 05, 16);
             //Act
 
             FeeCalc.DetermineNightFee(heavyNightVehicle);
@@ -74,12 +74,12 @@ namespace Tulltester
             var heavyVehicle = new Vehicle(1200);
             var timespan2 = new TimeSpan(0700);
             heavyVehicle.timeOfPassage = timespan2;
-			heavyVehicle.dateOfPassage = new DateTime(2018, 05, 14);
+            heavyVehicle.dateOfPassage = new DateTime(2018, 05, 14);
 
             var lightVehicle = new Vehicle(999);
             var timespan3 = new TimeSpan(1600);
             lightVehicle.timeOfPassage = timespan3;
-			lightVehicle.dateOfPassage = new DateTime(2018, 05, 15);
+            lightVehicle.dateOfPassage = new DateTime(2018, 05, 15);
             //Act
 
             FeeCalc.DetermineNightFee(heavyVehicle);
@@ -97,21 +97,21 @@ namespace Tulltester
         public void Rule3_Weekend()
         {
 
-            // Regel 7 st√§ller till det f√∂r regel 3. Avgiften dubblas ist√§llet...
+            // Regel 7 st‰ller till det fˆr regel 3. Avgiften dubblas ist‰llet...
 
             // Arrange
 
             var heavyNightVehicle = new Vehicle(1200);
             var timespan = new TimeSpan(2200);
             heavyNightVehicle.timeOfPassage = timespan;
-			heavyNightVehicle.dateOfPassage = new DateTime(2018, 05, 19);
+            heavyNightVehicle.dateOfPassage = new DateTime(2018, 05, 19);
 
             var lightNightVehicle = new Vehicle(999);
             var timespan1 = new TimeSpan(1801);
             lightNightVehicle.timeOfPassage = timespan1;
-			lightNightVehicle.dateOfPassage = new DateTime(2018, 05, 20);
+            lightNightVehicle.dateOfPassage = new DateTime(2018, 05, 20);
 
-			var weekday = lightNightVehicle.weekdayOfPassage;
+            var weekday = lightNightVehicle.weekdayOfPassage;
             //Act
 
             FeeCalc.DetermineOvertimeFee(heavyNightVehicle);
@@ -135,7 +135,7 @@ namespace Tulltester
             var timespan = new TimeSpan(2200);
 
             testVehicle.timeOfPassage = timespan;
-			testVehicle.dateOfPassage = new DateTime(2018, 05, 14);
+            testVehicle.dateOfPassage = new DateTime(2018, 05, 14);
 
             //Act
 
@@ -155,10 +155,10 @@ namespace Tulltester
             var timespan = new TimeSpan(1600);
 
             testVehicle.timeOfPassage = timespan;
-			testVehicle.dateOfPassage= new DateTime(2018, 05, 15);
+            testVehicle.dateOfPassage = new DateTime(2018, 05, 15);
 
             //Act
-        
+
             FeeCalc.DetermineNightFee(testVehicle);
 
             //Assert
@@ -175,13 +175,13 @@ namespace Tulltester
             var timespane = new TimeSpan(2200);
 
             heavyTestBike.timeOfPassage = timespane;
-			heavyTestBike.dateOfPassage = new DateTime(2018, 05, 14);
+            heavyTestBike.dateOfPassage = new DateTime(2018, 05, 14);
 
             var lightTestBike = new MotorCycle(800);
             var timespane1 = new TimeSpan(2200);
 
             lightTestBike.timeOfPassage = timespane1;
-			lightTestBike.dateOfPassage= new DateTime(2018, 05, 14);
+            lightTestBike.dateOfPassage = new DateTime(2018, 05, 14);
 
 
             //Act
@@ -204,7 +204,7 @@ namespace Tulltester
             var timespan = new TimeSpan(1600);
 
             testVehicle.timeOfPassage = timespan;
-			testVehicle.dateOfPassage = new DateTime(2018, 12, 24);
+            testVehicle.dateOfPassage = new DateTime(2018, 12, 24);
 
 
             //Act
@@ -222,16 +222,16 @@ namespace Tulltester
         {
             // Arrange
 
-			var enviromentFriendlyVehicle = new Vehicle(1000);
-			var nonEnviromentFriendlyVehicle = new Vehicle(1200);
+            var enviromentFriendlyVehicle = new Vehicle(1000);
+            var nonEnviromentFriendlyVehicle = new Vehicle(1200);
 
             enviromentFriendlyVehicle.enviromentFriendly = true;
-			nonEnviromentFriendlyVehicle.enviromentFriendly = false;
+            nonEnviromentFriendlyVehicle.enviromentFriendly = false;
 
-			//Act
+            //Act
 
-			FeeCalc.DetermineEnviromentFriendlyFee(enviromentFriendlyVehicle);
-			FeeCalc.DetermineEnviromentFriendlyFee(nonEnviromentFriendlyVehicle);
+            FeeCalc.DetermineEnviromentFriendlyFee(enviromentFriendlyVehicle);
+            FeeCalc.DetermineEnviromentFriendlyFee(nonEnviromentFriendlyVehicle);
 
             //Assert
 
