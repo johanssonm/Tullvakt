@@ -4,74 +4,102 @@ namespace Tullvakt
 {
     public class Rules
     {
-        
-        public static double Rule1_Rule2(Vehicle vehicle, double fee)
+
+        public static double Rule1_Rule2(Vehicles vehicle, double fee)
         {
-			
+
             if (vehicle.weight <= Toll.StandardWeightInKgs)
             {
-				fee = Toll.LightWeightVehicleFee;
+                fee = Toll.LightWeightVehicleFee;
                 return fee;
             }
 
-			fee = Toll.HeavyWeightVehicleFee;
+            fee = Toll.HeavyWeightVehicleFee;
             return fee;
 
         }
 
-		public static double Rule3(DateTime datetime, double fee)
+        public static double Rule3(DateTime datetime, double fee)
         {
+            var toll = new Toll();
 
-			DateTime startTollNightFee = new DateTime(Toll.StartNightFee);
-			DateTime endTollNightFee = new DateTime(Toll.EndNightFee);
-                     
-			if (datetime.DayOfWeek == DayOfWeek.Saturday ||
-			    datetime.DayOfWeek == DayOfWeek.Sunday)
+            if (datetime.DayOfWeek == DayOfWeek.Saturday ||
+                datetime.DayOfWeek == DayOfWeek.Sunday)
+            {
+                return fee;
+            }
+
+            if (datetime.TimeOfDay > toll.startNightFee ||
+                datetime.TimeOfDay < toll.endNightFee)
+            {
+                return fee * Toll.NightTollDiscount;
+            }
+
+            return fee;
+            
+
+        }
+
+        public static double Rule4(Vehicles vehicle, double fee)
+        {
+            var toll = new Toll();
+
+            if (vehicle is Truck)
+            {
+                return Toll.StandardTruckFee;
+            }
+
+            return fee;
+        }
+
+        public static double Rule5(Vehicles vehicle, double fee)
+        {
+            var toll = new Toll();
+
+            if (vehicle is Car)
+            {
+                return Rule1_Rule2(vehicle, fee);
+            }
+
+            return fee;
+
+
+        }
+
+        public static double DetermineOvertimePay(Vehicles vehicle, DateTime time, double fee)
+        {
+            var toll = new Toll();
+
+            if (vehicle == null)
+            {
+                throw new ArgumentNullException(nameof(vehicle));
+            }
+
+
+                if (vehicle is Truck)
                 {
-				return fee;
+                    return fee;
                 }
 
-                if (datetime > startTollNightFee ||
-                    datetime < endTollNightFee)
+                if (time.DayOfWeek == DayOfWeek.Saturday ||
+                    time.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    return fee;
+                }
+
+                if (time.TimeOfDay > toll.startNightFee ||
+                    time.TimeOfDay < toll.endNightFee)
                 {
                     return fee * Toll.NightTollDiscount;
                 }
-                     
-            }
-        }
 
-        public static void DetermineOvertimePay(Vehicle vehicle)
-        {
-
-            TimeSpan startTollNightFee = new TimeSpan(StartNightFee);
-            TimeSpan endTollNightFee = new TimeSpan(EndNightFee);
-
-
-            while (true)
-            {
-                if (vehicle is Truck)
-                {
-                    break;
-                }
-
-                if (vehicle.PassageDay == DayOfWeek.Saturday ||
-                    vehicle.PassageDay == DayOfWeek.Sunday)
-                {
-                    break;
-                }
-
-                if (vehicle.PassageTime > startTollNightFee ||
-                    vehicle.PassageTime < endTollNightFee)
-                {
-                    vehicle.Fee = vehicle.Fee * FeeCalc.NightTollDiscount;
-                }
-
-                break;
+            return fee;
 
             }
         }
 
 
-    }
-
+    
 }
+
+

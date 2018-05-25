@@ -1,10 +1,11 @@
-﻿namespace Tullvakt
+﻿using System;
+
+namespace Tullvakt
 {
 	public class Toll
 	{
-		public int Fee { get; set; }
-		public const int StartNightFee = 1800;
-		public const int EndNightFee = 0600;
+        public TimeSpan startNightFee => new TimeSpan(18,00,00);
+        public TimeSpan endNightFee => new TimeSpan(06,00,00);
 
 		public const double LightWeightVehicleFee = 500;
 		public const double HeavyWeightVehicleFee = 1000;
@@ -16,6 +17,18 @@
 		public const double DutyFree = 0;
 
 		public const double StandardWeightInKgs = 1000;
+
+        public static double CalculateFee(Vehicles vehicle, DateTime datetime)
+        {
+            double fee = 0;
+
+            fee = Rules.Rule1_Rule2(vehicle, fee);
+            fee = Rules.Rule3(datetime, fee);
+            fee = Rules.Rule4(vehicle, fee);
+
+            return fee;
+
+        }
 
 	}
 

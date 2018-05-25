@@ -4,7 +4,7 @@ namespace Tullvakt
 {
 
 
-	public abstract class Vehicle
+	public abstract class Vehicles
 	{
         
 		public int weight { get; set; }
@@ -12,18 +12,18 @@ namespace Tullvakt
         
 	}
 
-	public class Car : Vehicle
+	public class Car : Vehicles
 	{
 		
 	}
 
-	public class Truck : Vehicle
+	public class Truck : Vehicles
     {
 
 	
 	}
 
-	public class Motorcycle : Vehicle
+	public class Motorcycle : Vehicles
     {
 
     }
