@@ -5,7 +5,7 @@ namespace Tullvakt
     public class Rules
     {
 
-        public static double Rule1_Rule2(Vehicles vehicle, double fee)
+        public static double IsVehicleLightOrHeavy(Vehicles vehicle, double fee)
         {
 
             if (vehicle.weight <= Toll.StandardWeightInKgs)
@@ -19,7 +19,7 @@ namespace Tullvakt
 
         }
 
-        public static double Rule3(DateTime datetime, double fee)
+        public static double IsItNightTime(DateTime datetime, double fee)
         {
             var toll = new Toll();
 
@@ -36,11 +36,11 @@ namespace Tullvakt
             }
 
             return fee;
-            
+
 
         }
 
-        public static double Rule4(Vehicles vehicle, double fee)
+        public static double IsVehicleATruck(Vehicles vehicle, double fee)
         {
             var toll = new Toll();
 
@@ -52,13 +52,13 @@ namespace Tullvakt
             return fee;
         }
 
-        public static double Rule5(Vehicles vehicle, double fee)
+        public static double IsVehicleAMotoCycle(Vehicles vehicle, double fee)
         {
             var toll = new Toll();
 
-            if (vehicle is Car)
+            if (vehicle is Motorcycle)
             {
-                return Rule1_Rule2(vehicle, fee);
+                return fee * Toll.MotorCycleDiscount;
             }
 
             return fee;
@@ -66,7 +66,7 @@ namespace Tullvakt
 
         }
 
-        public static double DetermineOvertimePay(Vehicles vehicle, DateTime time, double fee)
+        public static double IsItWeekendOrAHoliday(Vehicles vehicle, DateTime time, double fee)
         {
             var toll = new Toll();
 
@@ -76,30 +76,35 @@ namespace Tullvakt
             }
 
 
-                if (vehicle is Truck)
-                {
-                    return fee;
-                }
-
-                if (time.DayOfWeek == DayOfWeek.Saturday ||
-                    time.DayOfWeek == DayOfWeek.Sunday)
-                {
-                    return fee;
-                }
-
-                if (time.TimeOfDay > toll.startNightFee ||
-                    time.TimeOfDay < toll.endNightFee)
-                {
-                    return fee * Toll.NightTollDiscount;
-                }
+            if (time.DayOfWeek == DayOfWeek.Saturday ||
+                time.DayOfWeek == DayOfWeek.Sunday
+                )
+            {
+                return fee * Toll.WeekendAndHolidayMultiplier;
+            }
 
             return fee;
 
-            }
         }
 
 
-    
+        public static double IsVehicleEnviromentFriendly(Vehicles vehicle, double fee)
+        {
+            var toll = new Toll();
+
+            if (vehicle.enviromentFriendly == true)
+            {
+                return Toll.DutyFree;
+            }
+
+            return fee;
+
+
+        }
+
+    }
+
+
 }
 
 

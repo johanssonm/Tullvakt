@@ -22,9 +22,12 @@ namespace Tullvakt
         {
             double fee = 0;
 
-            fee = Rules.Rule1_Rule2(vehicle, fee);
-            fee = Rules.Rule3(datetime, fee);
-            fee = Rules.Rule4(vehicle, fee);
+            fee = Rules.IsVehicleLightOrHeavy(vehicle, fee);
+            fee = Rules.IsItNightTime(datetime, fee);
+            fee = Rules.IsVehicleATruck(vehicle, fee);
+            fee = Rules.IsVehicleAMotoCycle(vehicle, fee);
+            fee = Rules.IsItWeekendOrAHoliday(vehicle, datetime, fee);
+            fee = Rules.IsVehicleEnviromentFriendly(vehicle, fee);
 
             return fee;
 
